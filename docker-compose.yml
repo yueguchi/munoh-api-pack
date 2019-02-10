@@ -1,0 +1,10 @@
+version: '3'
+services:
+  api:
+    build:
+      context: ./app
+    volumes:
+      - ./app/ChatterBot:/var/www/html/ChatterBot
+    ports:
+        - "18080:80"
+
