@@ -12,5 +12,6 @@
 */
 Route::group(['prefix' => 'v1'], function () {
     Route::get('/separate', 'WordsQueryController@index');
+    Route::get('/repl', 'WordsQueryController@repl');
     Route::put('/words', 'WordsCommandController@index');
 });

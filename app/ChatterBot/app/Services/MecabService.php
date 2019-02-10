@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\Word;
+use App\Repositories\WordRepository;
 
 /**
  * Created by PhpStorm.
@@ -12,6 +13,18 @@ use App\Models\Word;
  */
 class MecabService
 {
+    /** @var WordRepository */
+    private $wordRepository;
+    
+    /**
+     * MecabService constructor.
+     * @param WordRepository $wordRepository
+     */
+    public function __construct(WordRepository $wordRepository)
+    {
+        $this->wordRepository = $wordRepository;
+    }
+    
     /**
      * mecabコマンドで単語を分ち書きにして返す
      * @param String $word
@@ -24,6 +37,10 @@ class MecabService
         return $output;
     }
     
+    /**
+     * 分かち書きした単語をデータ登録する
+     * @param String $word
+     */
     public function putWords(String $word): void
     {
         $words = $this->separateWord($word);
@@ -47,5 +64,21 @@ class MecabService
               'word3' => $padded_words[2]
             ]);
         }
+    }
+    
+    /**
+     * 指定した言葉をマルコフ理論にかけて、結果リプライを取得返却する
+     * @param String $word
+     * @return String
+     * @throws \Exception
+     */
+    public function getRepl(String $word): String
+    {
+        $words = $this->separateWord($word);
+        if (count($words) <= 0) {
+            throw new \Exception("${word}は不正な文言です。");
+        }
+        $targetWord = $words[rand(0, count($words) - 1)];
+        return $this->wordRepository->markov($targetWord);
     }
 }
