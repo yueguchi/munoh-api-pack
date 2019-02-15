@@ -6,7 +6,7 @@ use App\Events\WordDiscovered;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
-class WordDicoveryNotification
+class WordDicoveryNotification implements ShouldQueue
 {
     /**
      * Create the event listener.
@@ -15,7 +15,7 @@ class WordDicoveryNotification
      */
     public function __construct()
     {
-        //
+        \Log::debug('WordDicoveryNotificationListener start.');
     }
 
     /**
@@ -26,7 +26,18 @@ class WordDicoveryNotification
      */
     public function handle(WordDiscovered $event)
     {
-        sleep(5);
-        \Log::info('@@@@@');
+        \Log::debug($event);
+    }
+
+    /**
+     * 失敗したジョブの処理
+     *
+     * @param  \App\Events\WordDiscovered $event
+     * @param  \Exception  $exception
+     * @return void
+     */
+    public function failed(WordDiscovered $event, $exception)
+    {
+        \Log::error($exception);
     }
 }

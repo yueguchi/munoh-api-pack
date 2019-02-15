@@ -45,6 +45,7 @@ class WordsQueryController extends Controller
     {
         $word = $request->input('word');
         $repl = $this->mecabService->getRepl($word);
+        // 新出単語の登録処理(Command)はイベントにdispatchして委譲する
         event(new WordDiscovered($word));
         return response(['message' => $repl], 200);
     }
