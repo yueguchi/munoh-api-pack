@@ -15,6 +15,11 @@ class MecabService
 {
     /** @var WordRepository */
     private $wordRepository;
+
+    /** 機械的なテンプレ返答シリーズ */
+    private $defaultWords = [
+        'ちょっと何言っているのかわからなかったです...'
+    ];
     
     /**
      * MecabService constructor.
@@ -79,6 +84,17 @@ class MecabService
             throw new \Exception("${word}は不正な文言です。");
         }
         $targetWord = $words[rand(0, count($words) - 1)];
-        return $this->wordRepository->markov($targetWord);
+        $repl = $this->wordRepository->markov($targetWord);
+        if (!$repl) $repl = $this->getRandomWord();
+        return $repl;
+    }
+
+    /**
+     * 該当する返答が得られなかった時にそれっぽい言葉を機械的に返す処理
+     * @return String
+     */
+    protected function getRandomWord(): String
+    {
+        return $this->defaultWords[rand(0, count($this->defaultWords) - 1)];
     }
 }
