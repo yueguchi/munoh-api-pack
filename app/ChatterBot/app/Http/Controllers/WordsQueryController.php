@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\MecabQueryGetRequest;
 use App\Services\MecabService;
+use App\Events\WordDiscovered;
 
 /**
  * 単語クエリ操作系のコントローラ
@@ -42,7 +43,9 @@ class WordsQueryController extends Controller
      */
     public function repl(MecabQueryGetRequest $request) :\Illuminate\Http\Response
     {
-        $repl = $this->mecabService->getRepl($request->input('word'));
+        $word = $request->input('word');
+        $repl = $this->mecabService->getRepl($word);
+        event(new WordDiscovered($word));
         return response(['message' => $repl], 200);
     }
 }
