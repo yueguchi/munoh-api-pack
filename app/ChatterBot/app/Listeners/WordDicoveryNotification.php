@@ -3,7 +3,6 @@
 namespace App\Listeners;
 
 use App\Events\WordDiscovered;
-use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
 class WordDicoveryNotification implements ShouldQueue
@@ -26,7 +25,7 @@ class WordDicoveryNotification implements ShouldQueue
      */
     public function handle(WordDiscovered $event)
     {
-        \Log::debug($event);
+        \Log::debug('WordDiscovered handle');
     }
 
     /**
@@ -38,6 +37,6 @@ class WordDicoveryNotification implements ShouldQueue
      */
     public function failed(WordDiscovered $event, $exception)
     {
-        \Log::error($exception);
+        // TODO
     }
 }

@@ -9,17 +9,18 @@ use Illuminate\Broadcasting\PresenceChannel;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
+use phpDocumentor\Reflection\Types\Void_;
 
 class WordDiscovered
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     private $word;
-
+    
     /**
      * Create a new event instance.
      *
-     * @return void
+     * @param string $word
      */
     public function __construct(string $word)
     {

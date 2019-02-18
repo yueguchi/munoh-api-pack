@@ -85,7 +85,9 @@ class MecabService
         }
         $targetWord = $words[rand(0, count($words) - 1)];
         $repl = $this->wordRepository->markov($targetWord);
-        if (!$repl) $repl = $this->getRandomWord();
+        if (!$repl) {
+            $repl = $this->getRandomWord();
+        }
         return $repl;
     }
 
