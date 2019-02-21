@@ -35,7 +35,8 @@ class WordDiscoveryNotification implements ShouldQueue
     {
         \Log::debug('WordDiscovered handle');
         \Log::debug($event->word);
-        $this->mecabService->putWords($this->mecabService->separateWord($event->word));
+        $separatedWords = $this->mecabService->separateWord($event->word);
+        $this->mecabService->putWords($this->mecabService->isNotExistWord($separatedWords));
         \Log::debug('WordDiscoveryNotificationListener end.');
     }
 
