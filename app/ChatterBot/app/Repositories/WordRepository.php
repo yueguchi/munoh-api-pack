@@ -42,4 +42,31 @@ class WordRepository
         $ret .= $words3[rand(0, count($words3) - 1)]->word3;
         return $ret;
     }
+    
+    /**
+     * 3単語配列がDBに登録されている数を取得する
+     * @param $padded_words
+     * @return mixed
+     */
+    public function getExistenceWordsCount($padded_words)
+    {
+        return Word::where('word1', '=', $padded_words[0])
+          ->where('word2', '=', $padded_words[1])
+          ->where('word3', '=', $padded_words[2])->count();
+    }
+    
+    /**
+     * 登録
+     * @param array $words
+     * @return Void
+     */
+    public function insert(Array $words) :Void
+    {
+        Word::create([
+          'id' => uniqid(),
+          'word1' => $words[0],
+          'word2' => $words[1],
+          'word3' => $words[2]
+        ]);
+    }
 }

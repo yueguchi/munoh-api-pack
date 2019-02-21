@@ -31,7 +31,8 @@ class WordsCommandController extends Controller
      */
     public function index(WordsPutCommandRequest $request) :\Illuminate\Http\Response
     {
-        $this->mecabService->putWords($request->input('word'));
+        $separatedWords = $this->mecabService->separateWord($request->input('word'));
+        $this->mecabService->putWords($this->mecabService->isNotExistWord($separatedWords));
         return response(['message' => 'Created'], 201);
     }
 }

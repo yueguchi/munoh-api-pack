@@ -1,0 +1,2 @@
+0 * * * *   "cd /var/www/html/ChatterBot/ && php artisan queue:work --stop-when-empty" >>/var/log/cron.log 2>&1
+

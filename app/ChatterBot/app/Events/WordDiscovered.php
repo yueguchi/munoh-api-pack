@@ -2,20 +2,20 @@
 
 namespace App\Events;
 
-use Illuminate\Broadcasting\Channel;
-use Illuminate\Queue\SerializesModels;
-use Illuminate\Broadcasting\PrivateChannel;
-use Illuminate\Broadcasting\PresenceChannel;
-use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Broadcasting\InteractsWithSockets;
-use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
-use phpDocumentor\Reflection\Types\Void_;
+use Illuminate\Broadcasting\PrivateChannel;
+use Illuminate\Foundation\Events\Dispatchable;
+use Illuminate\Queue\SerializesModels;
 
+/**
+ * Class WordDiscovered
+ * @package App\Events
+ */
 class WordDiscovered
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    private $word;
+    public $word;
     
     /**
      * Create a new event instance.

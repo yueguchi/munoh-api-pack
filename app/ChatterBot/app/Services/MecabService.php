@@ -2,7 +2,6 @@
 
 namespace App\Services;
 
-use App\Models\Word;
 use App\Repositories\WordRepository;
 
 /**
@@ -43,31 +42,44 @@ class MecabService
     }
     
     /**
-     * 分かち書きした単語をデータ登録する
-     * @param String $word
+     * DBに存在しない単語群のみを抽出して返す
+     * @param $words
+     * @return Array
      */
-    public function putWords(String $word): void
+    public function isNotExistWord($words) : Array
     {
-        $words = $this->separateWord($word);
+        /* ▼3要素ずつに分割
+         * [
+         *  [1,2,3],
+         *  [4,5,6],
+         *  [7,8]
+         * ]
+         */
+        $chunk_words = array_chunk($words, 3);
+        return array_filter($chunk_words, function ($wordsArray) {
+            // 3要素の不足分をnullで穴埋めする。[7,8] -> [7,8, ]となる。
+            $padded_words = array_pad($wordsArray, 3, null);
+            $count = $this->wordRepository->getExistenceWordsCount($padded_words);
+            if ($count === 0) {
+                return $padded_words;
+            }
+        });
+    }
+    
+    /**
+     * 分かち書きした3要素の単語配列をデータ登録する
+     * @param array $words 3要素の配列を包括した配列
+     */
+    public function putWords(Array $words): void
+    {
         if (count($words) <= 0) {
             return;
         }
-        // ↓以下のように分かち書き結果を3要素の配列の配列に分割する
-        //        [
-        //          [1,2,3],
-        //          [4,5,6],
-        //          [7,8]
-        //        ]
-        $chunk_words = array_chunk($words, 3);
-        foreach ($chunk_words as $index => $wordsArray) {
-            //
-            $padded_words = array_pad($wordsArray, 3, null);
-            Word::create([
-              'id' => uniqid(),
-              'word1' => $padded_words[0],
-              'word2' => $padded_words[1],
-              'word3' => $padded_words[2]
-            ]);
+        foreach ($words as $index => $wordsArray) {
+            if (count($wordsArray) < 3) {
+                continue;
+            }
+            $this->wordRepository->insert($wordsArray);
         }
     }
     
