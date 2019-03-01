@@ -12,7 +12,8 @@ class WordsPutCommandRequest extends BaseRequest
     public function rules()
     {
         return [
-          'word' => 'required'
+          // コマンドインジェクション対策(弱)
+          'word' => 'required|regex:/^[^;]*$/'
         ];
     }
 }
