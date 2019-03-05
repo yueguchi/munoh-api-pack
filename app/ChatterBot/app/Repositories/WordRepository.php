@@ -20,22 +20,23 @@ class WordRepository
     public function markov(String $word) :String
     {
         $ret = '';
+        $whereWord = $word;
         // WORD1
-        $words1 = Word::where('word1', '=', $word)->get(['id', 'word2']);
-        if (count($words1) === 0) {
-            return $ret;
+        $words1 = Word::where('word1', '=', $whereWord)->get(['id', 'word2']);
+        if (count($words1) > 0) {
+            $chatRandomWord1 = $words1[rand(0, count($words1) - 1)]->word2;
+            $whereWord = $chatRandomWord1;
+            $ret .= $chatRandomWord1;
         }
-        $chatRandomWord1 = $words1[rand(0, count($words1) - 1)]->word2;
-        $ret .= $chatRandomWord1;
         // WORD2
-        $words2 = Word::where('word2', '=', $chatRandomWord1)->get(['id', 'word3']);
-        if (count($words2) === 0) {
-            return $ret;
+        $words2 = Word::where('word2', '=', $whereWord)->get(['id', 'word3']);
+        if (count($words2) > 0) {
+            $chatRandomWord2 = $words2[rand(0, count($words2) - 1)]->word3;
+            $whereWord = $chatRandomWord2;
+            $ret .= $chatRandomWord2;
         }
-        $chatRandomWord2 = $words2[rand(0, count($words2) - 1)]->word3;
-        $ret .= $chatRandomWord2;
         // WORD3
-        $words3 = Word::where('word3', '=', $chatRandomWord2)->get(['id', 'word3']);
+        $words3 = Word::where('word2', '=', $whereWord)->get(['id', 'word3']);
         if (count($words3) === 0) {
             return $ret;
         }

@@ -46,7 +46,7 @@ class MecabService
      * @param $words
      * @return Array
      */
-    public function isNotExistWord($words) : Array
+    public function getNotExistWord($words) : Array
     {
         /* ▼3要素ずつに分割
          * [

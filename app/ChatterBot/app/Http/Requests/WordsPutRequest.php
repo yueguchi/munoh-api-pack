@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests;
 
-class WordsPutCommandRequest extends BaseRequest
+class WordsPutRequest extends BaseRequest
 {
     /**Ø
      * Get the validation rules that apply to the request.

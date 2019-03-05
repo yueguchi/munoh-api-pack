@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests;
 
-class MecabQueryGetRequest extends BaseRequest
+class MecabGetRequest extends BaseRequest
 {
     /**
      * Get the validation rules that apply to the request.

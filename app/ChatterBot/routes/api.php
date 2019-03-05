@@ -14,11 +14,7 @@
 use Illuminate\Support\Facades\Route;
 
 Route::group(['prefix' => 'v1'], function () {
-    Route::group(['prefix' => 'query'], function () {
-        Route::get('/separate', 'WordsQueryController@index');
-        Route::get('/repl', 'WordsQueryController@repl');
-    });
-    Route::group(['prefix' => 'command'], function () {
-        Route::put('/regist/words', 'WordsCommandController@index');
-    });
+    Route::get('/separate', 'WordsController@index');
+    Route::get('/repl', 'WordsController@repl');
+    Route::put('/regist/words', 'WordsController@putWord');
 });
