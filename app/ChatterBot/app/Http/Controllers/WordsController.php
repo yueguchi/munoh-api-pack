@@ -31,7 +31,7 @@ class WordsController extends Controller
      * @param MecabGetRequest $request
      * @return \Illuminate\Http\Response
      */
-    public function index(MecabGetRequest $request) :\Illuminate\Http\Response
+    public function separate(MecabGetRequest $request) :\Illuminate\Http\Response
     {
         return response(["words" => $this->mecabService->separateWord($request->input('word'))], 200);
     }

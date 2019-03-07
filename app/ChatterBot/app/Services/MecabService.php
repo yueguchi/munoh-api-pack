@@ -36,6 +36,8 @@ class MecabService
      */
     public function separateWord(String $word): Array
     {
+        // コマンドインジェクション対策。wordをシングルコートでくくって、一つの文字列扱いにする
+        $word = escapeshellarg($word);
         $command = "echo ${word} | mecab -E '' -F '%m\n'";
         exec($command, $output, $return_value);
         return $output;
@@ -105,7 +107,7 @@ class MecabService
     {
         $words = $this->separateWord($word);
         if (count($words) <= 0) {
-            throw new \Exception("${word}は不正な文言です。");
+            abort('400', "${word}は不正な文字列です");
         }
         $targetWord = $words[rand(0, count($words) - 1)];
         $repl = $this->wordRepository->markov($targetWord);

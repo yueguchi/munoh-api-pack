@@ -14,7 +14,7 @@
 use Illuminate\Support\Facades\Route;
 
 Route::group(['prefix' => 'v1'], function () {
-    Route::get('/separate', 'WordsController@index');
+    Route::get('/separate', 'WordsController@separate');
     Route::get('/repl', 'WordsController@repl');
     Route::put('/regist/words', 'WordsController@putWord');
 });
