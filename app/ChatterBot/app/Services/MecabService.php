@@ -37,7 +37,7 @@ class MecabService
     public function separateWord(String $word): Array
     {
         // コマンドインジェクション対策。wordをシングルコートでくくって、一つの文字列扱いにする
-        $word = escapeshellarg($word);
+        // $word = escapeshellarg($word);
         $command = "echo ${word} | mecab -E '' -F '%m\n'";
         exec($command, $output, $return_value);
         return $output;
