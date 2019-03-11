@@ -13,7 +13,7 @@ class MecabGetRequest extends BaseRequest
     {
         return [
           // コマンドインジェクション対策(弱)
-          'word' => 'required|regex:/^[^;]*$/'
+          'word' => 'required'
         ];
     }
 }
