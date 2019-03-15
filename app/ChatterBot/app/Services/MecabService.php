@@ -37,6 +37,7 @@ class MecabService
     public function separateWord(String $word): Array
     {
         // コマンドインジェクション対策
+        setlocale(LC_CTYPE, 'ja_JP.UTF-8');
         $word = escapeshellarg($word);
         $command = "echo ${word} | mecab -E '' -F '%m\n'";
         exec($command, $output, $return_value);
