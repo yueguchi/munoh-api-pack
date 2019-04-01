@@ -49,7 +49,7 @@ class WordRepository
      * @param $padded_words
      * @return mixed
      */
-    public function getExistenceWordsCount($padded_words)
+    public function getExistenceWordsCount($padded_words): int
     {
         return Word::where('word1', '=', $padded_words[0])
           ->where('word2', '=', $padded_words[1])
