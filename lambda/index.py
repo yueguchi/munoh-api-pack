@@ -27,10 +27,22 @@ def handler(event, context):
         if record['eventName'] == 'REMOVE':
             r = requests.delete(url + id, auth=awsauth)
         else:
-            # word1 = record['dynamodb']['NewImage']['word1']['S']
-            # word2 = record['dynamodb']['NewImage']['word2']['S']
-            # word3 = record['dynamodb']['NewImage']['word3']['S']
-            document = record['dynamodb']['NewImage']
+            word1 = record['dynamodb']['NewImage']['word1']['S']
+            word2 = record['dynamodb']['NewImage']['word2']['S']
+            word3 = record['dynamodb']['NewImage']['word3']['S']
+            created_at = record['dynamodb']['NewImage']['created_at']['S']
+            updated_at = record['dynamodb']['NewImage']['updated_at']['S']
+            jsonStr = '''
+{{
+    "id": "{_id}",
+    "word1": "{_word1}",
+    "word2": "{_word2}",
+    "word3": "{_word3}",
+    "created_at": "{_created_at}",
+    "updated_at": "{_updated_at}"
+}}
+'''.format(_id = id, _word1 = word1, _word2 = word2, _word3 = word3, _created_at = created_at, _updated_at = updated_at)
+            document = json.loads(jsonStr)
             logger.info('got NewImage {}'.format(document))
             logger.info('endpoint: %s' % url + id)
             r = requests.put(url + id, auth=awsauth, json=document, headers=headers)
