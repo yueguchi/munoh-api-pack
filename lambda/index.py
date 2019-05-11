@@ -21,17 +21,22 @@ headers = { "Content-Type": "application/json" }
 def handler(event, context):
     count = 0
     for record in event['Records']:
+        logger.info('record: {}'.format(record))
         # Get the primary key for use as the Elasticsearch ID
         id = record['dynamodb']['Keys']['id']['S']
 
         if record['eventName'] == 'REMOVE':
             r = requests.delete(url + id, auth=awsauth)
         else:
-            word1 = record['dynamodb']['NewImage']['word1']['S']
-            word2 = record['dynamodb']['NewImage']['word2']['S']
-            word3 = record['dynamodb']['NewImage']['word3']['S']
-            created_at = record['dynamodb']['NewImage']['created_at']['S']
-            updated_at = record['dynamodb']['NewImage']['updated_at']['S']
+            # wordは終端EOFのときはnullが入るので空文字いれとく
+            word1_dict = record['dynamodb']['NewImage']['word1']
+            word1 = record['dynamodb']['NewImage']['word1']['S'] if 'S' in word1_dict else ''
+            word2_dict = record['dynamodb']['NewImage']['word2']
+            word2 = record['dynamodb']['NewImage']['word2']['S'] if 'S' in word2_dict else ''
+            word3_dict = record['dynamodb']['NewImage']['word3']
+            word3 = record['dynamodb']['NewImage']['word3']['S'] if 'S' in word3_dict else ''
+            created_at = record['dynamodb']['NewImage']['created_at']['N']
+            updated_at = record['dynamodb']['NewImage']['updated_at']['N']
             jsonStr = '''
 {{
     "id": "{_id}",
